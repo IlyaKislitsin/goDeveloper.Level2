@@ -10,6 +10,7 @@ import (
 
 // var files []*os.File
 
+// ImplicitPanicError struct
 type ImplicitPanicError struct {
 	Time time.Time
 	Err  error
@@ -34,7 +35,7 @@ func main() {
 func implicitPanic() (err error) {
 	defer func() {
 		if v := recover(); v != nil {
-			err = fmt.Errorf("%w: %v\n", newErrorImplicitPanic(), v)
+			err = fmt.Errorf("%w: %v", newErrorImplicitPanic(), v)
 		}
 	}()
 
