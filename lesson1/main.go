@@ -8,7 +8,10 @@ import (
 	"time"
 )
 
-// var files []*os.File
+var (
+	implicitError    = "implicit error"
+	filesNumberError = "filesNumber must be positive number"
+)
 
 // ImplicitPanicError struct
 type ImplicitPanicError struct {
@@ -26,10 +29,10 @@ func main() {
 		fmt.Println(err)
 	}
 
-	// err := createFiles(1000000)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
+	cfErr := createFiles(1000000)
+	if cfErr != nil {
+		fmt.Println(err)
+	}
 }
 
 func implicitPanic() (err error) {
@@ -49,7 +52,7 @@ func implicitPanic() (err error) {
 
 func createFiles(filesNumber int) error {
 	if filesNumber < 1 {
-		return errors.New("filesNumber must be positive number")
+		return errors.New(filesNumberError)
 	}
 
 	// Сколько не пытался, не смог добиться того, чтобы возникла паника
@@ -60,7 +63,7 @@ func createFiles(filesNumber int) error {
 		if err != nil {
 			return err
 		}
-		// files = append(files, file)
+
 		fmt.Println(filename)
 
 		// С отложенным закрытием файла, тоже не очень понял, чем это поможет внутри цикла...
@@ -76,6 +79,6 @@ func createFiles(filesNumber int) error {
 func newErrorImplicitPanic() *ImplicitPanicError {
 	return &ImplicitPanicError{
 		Time: time.Now(),
-		Err:  errors.New("implicit error"),
+		Err:  errors.New(implicitError),
 	}
 }
